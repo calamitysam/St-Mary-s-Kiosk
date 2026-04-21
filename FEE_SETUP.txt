@@ -1,0 +1,28 @@
+FEE STRUCTURE IN FIREBASE (simple steps)
+
+1) Open the Firebase website and open your project (or create one).
+
+2) Turn on "Firestore" if it asks you to create the database. Choose production mode; you will add a simple rule in step 5.
+
+3) In Firestore, create:
+   - A collection named: kiosk
+   - A document inside it with ID: fees
+   - Add one field:
+       Field name: content
+       Type: string
+       Value: paste your full fee structure text here (you can use multiple lines)
+
+4) In Firebase, open Project settings (gear icon) → Your apps → Web app. Copy the small config block into your computer’s .env.local file using the names already listed in .env.example (VITE_FIREBASE_...). Restart npm run dev after saving.
+
+5) In Firestore → Rules, you must allow the kiosk to READ this document without a login. Example rule that only opens the one document for reading:
+
+   match /kiosk/fees {
+     allow read: if true;
+     allow write: if false;
+   }
+
+   (Your final rules file may include other matches; ask Cursor or IT to merge safely.)
+
+6) Open the app → Fee structure. You should see the text from the "content" field.
+
+If anything is blank, check: spelling of kiosk / fees / content, rules saved, internet, and that .env.local has the Firebase lines and you restarted the dev server.
