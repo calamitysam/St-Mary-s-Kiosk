@@ -1,4 +1,4 @@
-lol import { parseYoutubeVideoId } from "../lib/youtubeEmbed";
+import { parseYoutubeVideoId } from "../lib/youtubeEmbed";
 
 export type VideoSource =
   | { kind: "file"; src: string }
