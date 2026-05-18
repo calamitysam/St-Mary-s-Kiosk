@@ -59,7 +59,7 @@ export function App() {
 
     const timeout = window.setTimeout(() => {
       setScreen("video");
-    }, 5000);
+    }, 10000);
 
     return () => window.clearTimeout(timeout);
   }, [screen]);
