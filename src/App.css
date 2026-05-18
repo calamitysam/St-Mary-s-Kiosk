@@ -386,3 +386,19 @@
 .error-text {
   color: #fca5a5;
 }
+
+@media (max-width: 600px) {
+  .fee-table th,
+  .fee-table td {
+    padding: 0.5rem 0.4rem;
+    font-size: 0.78rem;
+  }
+
+  .fee-heading-main {
+    font-size: 0.85rem;
+  }
+
+  .fee-heading-sub {
+    font-size: 0.78rem;
+  }
+}
