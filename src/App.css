@@ -387,18 +387,59 @@
   color: #fca5a5;
 }
 
-@media (max-width: 600px) {
-  .fee-table th,
-  .fee-table td {
-    padding: 0.5rem 0.4rem;
-    font-size: 0.78rem;
-  }
+/* Card layout - shown on portrait */
+.fee-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
 
-  .fee-heading-main {
-    font-size: 0.85rem;
-  }
+.fee-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+}
 
-  .fee-heading-sub {
-    font-size: 0.78rem;
+.fee-card-title {
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #f8fafc;
+}
+
+.fee-card-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  padding: 0.2rem 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.fee-card-label {
+  color: #a1a1aa;
+}
+
+.fee-card-value {
+  font-weight: 600;
+  color: #e4e4e7;
+}
+
+/* Hide table on portrait, show cards */
+@media (orientation: portrait) {
+  .fee-table-wrapper {
+    display: none;
+  }
+  .fee-cards {
+    display: flex;
+  }
+}
+
+/* Hide cards on landscape, show table */
+@media (orientation: landscape) {
+  .fee-cards {
+    display: none;
+  }
+  .fee-table-wrapper {
+    display: block;
   }
 }
