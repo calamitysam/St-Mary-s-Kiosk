@@ -33,7 +33,7 @@ function parseFeeContent(body: string): ParsedFeeContent {
   let startedTable = false;
 
   for (const line of lines) {
-    if (!startedTable && /grade/i.test(line) && /instalment/i.test(line)) {
+    if (!startedTable && /instalment/i.test(line)) {
       startedTable = true;
       tableRows.push(splitRow(line));
       continue;
@@ -71,9 +71,7 @@ export function FeeStructure({ onBack }: Props) {
     if (!isFirebaseWebConfigPresent()) {
       setStatus("ready");
       setBody(null);
-      return () => {
-        cancelled = true;
-      };
+      return () => { cancelled = true; };
     }
 
     setStatus("loading");
@@ -88,13 +86,13 @@ export function FeeStructure({ onBack }: Props) {
         setStatus("error");
       });
 
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const showFirebaseHint = !isFirebaseWebConfigPresent();
   const parsedBody = body ? parseFeeContent(body) : null;
+  const headers = parsedBody?.tableRows?.[0] ?? [];
+  const dataRows = parsedBody?.tableRows?.slice(1) ?? [];
 
   return (
     <div className="panel-overlay" role="dialog" aria-modal="true" aria-label="Fee structure">
@@ -122,19 +120,38 @@ export function FeeStructure({ onBack }: Props) {
                       {line}
                     </p>
                   ))}
-                  {parsedBody.sectionTitle && <p className="fee-heading-section">{parsedBody.sectionTitle}</p>}
+                  {parsedBody.sectionTitle && (
+                    <p className="fee-heading-section">{parsedBody.sectionTitle}</p>
+                  )}
                 </div>
+
+                {/* Card layout for portrait */}
+                <div className="fee-cards">
+                  {dataRows.map((row, rowIndex) => (
+                    <div key={rowIndex} className="fee-card">
+                      <p className="fee-card-title">{row[0]}</p>
+                      {headers.slice(1).map((header, i) => (
+                        <div key={i} className="fee-card-row">
+                          <span className="fee-card-label">{header}</span>
+                          <span className="fee-card-value">{row[i + 1] ?? "—"}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Table layout for landscape */}
                 <div className="fee-table-wrapper">
                   <table className="fee-table">
                     <thead>
                       <tr>
-                        {parsedBody.tableRows[0].map((cell, index) => (
+                        {headers.map((cell, index) => (
                           <th key={index}>{cell}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {parsedBody.tableRows.slice(1).map((row, rowIndex) => (
+                      {dataRows.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                           {row.map((cell, cellIndex) => (
                             <td key={cellIndex}>{cell}</td>
